@@ -1,0 +1,32 @@
+spring.application.name=fintrack
+
+# Actuator configuration
+management.endpoints.web.exposure.include=*
+management.endpoint.health.show-details=always
+management.endpoint.health.enabled=true
+management.endpoint.info.enabled=true
+
+# H2 Database configuration
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.platform=h2
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+# Configura Hibernate para generar las tablas automáticamente
+spring.jpa.hibernate.ddl-auto=create-drop
+
+# Retrasar la inicialización del datasource para asegurar que JPA cree las tablas antes de insertar datos
+spring.jpa.defer-datasource-initialization=true
+
+# Habilitar consola H2
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+# Logging para depurar SQL y ver las consultas generadas por Hibernate
+logging.level.org.springframework.jdbc=DEBUG
+logging.level.org.hibernate.SQL=DEBUG
+
+# Conexión a la base de datos H2 en memoria
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.username=sa
+spring.datasource.password=
+
