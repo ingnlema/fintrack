@@ -1,13 +1,14 @@
 package com.ucu.fintrack.domain.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import jakarta.persistence.*;
 
 @Entity
 @Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "bank_accounts")
 public class BankAccount {
     @Id
@@ -17,7 +18,7 @@ public class BankAccount {
     @Column(name = "account_number", nullable = false)
     private String accountNumber;
 
-    private String nameAccount; // Nombre de la cuenta
+    private String nameAccount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bank_id")

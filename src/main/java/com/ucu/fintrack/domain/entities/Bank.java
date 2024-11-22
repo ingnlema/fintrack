@@ -1,14 +1,14 @@
 package com.ucu.fintrack.domain.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import jakarta.persistence.*;
 
 @Data
 @NoArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "banks")
 public class Bank {
 

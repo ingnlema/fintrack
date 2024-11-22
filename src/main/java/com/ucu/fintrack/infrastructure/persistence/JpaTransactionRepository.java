@@ -8,20 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface JpaTransactionRepository extends JpaRepository<Transaction, Long>, TransactionRepository {
-
-    @Override
-    Transaction save(Transaction transaction);
-
-    @Override
-    Optional<Transaction> findById(Long id);
-
-    @Override
-    List<Transaction> findAll();
-
     @Override
     List<Transaction> findByNameAccount(String nameAccount);
 
@@ -30,7 +19,4 @@ public interface JpaTransactionRepository extends JpaRepository<Transaction, Lon
 
     @Override
     List<Transaction> findByType(TransactionType type);
-
-    @Override
-    void deleteById(Long id);
 }

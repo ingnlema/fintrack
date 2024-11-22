@@ -1,7 +1,10 @@
 package com.ucu.fintrack.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 import java.math.BigDecimal;
@@ -9,6 +12,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "transactions")
 public class Transaction {
     @Id
@@ -17,7 +23,7 @@ public class Transaction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
-    private BankAccount account; // Relación con la cuenta
+    private BankAccount account;
 
     private String nameAccount;
 
@@ -38,4 +44,13 @@ public class Transaction {
     private Category category;
 
     private String notes;
+
+
+    public static Transaction createSimpleTransaction(BankAccount account, TransactionType type, String description, double amount, LocalDateTime date) {
+        return new Transaction(
+                null, account, description, BigDecimal.valueOf(amount),
+                account.getCurrency(), type, null, date, null, null
+        );
+    }
+
 }
