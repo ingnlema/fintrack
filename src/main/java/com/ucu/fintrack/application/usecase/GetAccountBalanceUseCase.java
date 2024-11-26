@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
 @Service
 public class GetAccountBalanceUseCase {
 
@@ -17,13 +18,8 @@ public class GetAccountBalanceUseCase {
         this.transactionRepository = transactionRepository;
     }
 
-
-    public BigDecimal execute(String idAccount) {
-        if (idAccount == null || idAccount.isBlank()) {
-            throw new IllegalArgumentException("El ID de la cuenta es obligatorio.");
-        }
-
-        List<Transaction> transactions = transactionRepository.findByNameAccount(idAccount);
+    public BigDecimal execute(Long accountId) {
+        List<Transaction> transactions = transactionRepository.findByAccount_Id(accountId);
 
         return transactions.stream()
                 .map(transaction -> {
@@ -37,4 +33,5 @@ public class GetAccountBalanceUseCase {
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
 }

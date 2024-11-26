@@ -12,11 +12,14 @@ import java.util.List;
 @Repository
 public interface JpaTransactionRepository extends JpaRepository<Transaction, Long>, TransactionRepository {
     @Override
-    List<Transaction> findByNameAccount(String nameAccount);
+    List<Transaction> findByAccount_Id(Long accountId);
 
     @Override
-    List<Transaction> findByDateBetween(LocalDateTime startDate, LocalDateTime endDate);
+    List<Transaction> findByAccount_IdAndDateBetween(Long accountId, LocalDateTime startDate, LocalDateTime endDate);
 
     @Override
-    List<Transaction> findByType(TransactionType type);
+    List<Transaction> findByAccount_IdAndType(Long accountId, TransactionType type);
+
+    @Override
+    List<Transaction> findByAccount_IdAndDateBetweenAndType(Long accountId, LocalDateTime startDate, LocalDateTime endDate, TransactionType type);
 }

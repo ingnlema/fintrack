@@ -39,16 +39,16 @@ public class AccountController {
         return ResponseEntity.ok(createAccountUseCase.execute(input));
     }
 
-    @DeleteMapping("/account/{idaccount}")
+    @DeleteMapping("/account/{id}")
     @Operation(summary = "Elimina una cuenta bancaria por ID")
-    public ResponseEntity<DeleteAccountOutput> deleteAccount(@PathVariable String idaccount) {
-        return ResponseEntity.ok(deleteAccountUseCase.execute(idaccount));
+    public ResponseEntity<DeleteAccountOutput> deleteAccount(@PathVariable Long id) {
+        return ResponseEntity.ok(deleteAccountUseCase.execute(id));
     }
 
-    @GetMapping("/account/{idaccount}")
+    @GetMapping("/account/{id}")
     @Operation(summary = "Obtiene los detalles de una cuenta por ID")
-    public ResponseEntity<GetAccountOutput> getAccount(@PathVariable String idaccount) {
-        return ResponseEntity.ok(getAccountUseCase.execute(idaccount));
+    public ResponseEntity<GetAccountOutput> getAccount(@PathVariable Long id) {
+        return ResponseEntity.ok(getAccountUseCase.execute(id));
     }
 
     @GetMapping("/accounts")
@@ -57,9 +57,10 @@ public class AccountController {
         return ResponseEntity.ok(getAccountsUseCase.execute());
     }
 
-    @GetMapping("/balance")
+    @GetMapping("/account/{id}/balance")
     @Operation(summary = "Obtiene el balance actual de una cuenta por ID")
-    public ResponseEntity<BigDecimal> getAccountBalance(@RequestParam String idaccount) {
-        return ResponseEntity.ok(getAccountBalanceUseCase.execute(idaccount));
+    public ResponseEntity<BigDecimal> getAccountBalance(@PathVariable Long id) {
+        return ResponseEntity.ok(getAccountBalanceUseCase.execute(id));
     }
 }
+

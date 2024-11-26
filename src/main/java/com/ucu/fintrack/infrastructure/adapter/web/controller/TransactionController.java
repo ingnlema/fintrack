@@ -6,6 +6,7 @@ import com.ucu.fintrack.domain.entities.Transaction;
 import com.ucu.fintrack.domain.entities.TransactionType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,17 +41,17 @@ public class TransactionController {
     @GetMapping("/transactions/filters")
     @Operation(summary = "Obtiene transacciones filtradas por parámetros")
     public ResponseEntity<List<Transaction>> getFilteredTransactions(
-            @RequestParam String idaccount,
-            @RequestParam Optional<LocalDateTime> fechadesde,
-            @RequestParam Optional<LocalDateTime> fechahasta,
+            @RequestParam Long idAccount,
+            @RequestParam Optional<LocalDateTime> fechaDesde,
+            @RequestParam Optional<LocalDateTime> fechaHasta,
             @RequestParam Optional<TransactionType> tipo) {
-        return ResponseEntity.ok(getFilteredTransactionsUseCase.execute(idaccount, fechadesde, fechahasta, tipo));
+        return ResponseEntity.ok(getFilteredTransactionsUseCase.execute(idAccount, fechaDesde, fechaHasta, tipo));
     }
 
     @PostMapping("/transaction")
     @Operation(summary = "Registra una nueva transacción")
-    public ResponseEntity<Transaction> registerTransaction(@RequestBody TransactionInput input) {
-        return ResponseEntity.ok(registerTransactionUseCase.execute(input));
+    public ResponseEntity<Transaction> registerTransaction(@Valid @RequestBody TransactionInput input) {
+        Transaction transaction = registerTransactionUseCase.execute(input);
+        return ResponseEntity.ok(transaction);
     }
 }
-

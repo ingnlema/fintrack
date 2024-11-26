@@ -13,26 +13,22 @@ public class DeleteAccountUseCase {
         this.bankAccountRepository = bankAccountRepository;
     }
 
-    public DeleteAccountOutput execute(String idAccount) {
-        if (idAccount == null || idAccount.isBlank()) {
+    public DeleteAccountOutput execute(Long idAccount) {
+        if (idAccount == null) {
             throw new IllegalArgumentException("El ID de la cuenta es obligatorio.");
         }
 
-        Long accountId;
-        try {
-            accountId = Long.parseLong(idAccount);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("El ID de la cuenta debe ser un número válido.");
-        }
-        if (!bankAccountRepository.findById(accountId).isPresent()) {
+        if (!bankAccountRepository.findById(idAccount).isPresent()) {
             throw new IllegalArgumentException("La cuenta con ID " + idAccount + " no existe.");
         }
-        bankAccountRepository.deleteById(accountId);
+
+        bankAccountRepository.deleteById(idAccount);
 
         DeleteAccountOutput output = new DeleteAccountOutput();
         output.setMessage("Account successfully deleted");
-        output.setAccountId(idAccount);
+        output.setAccountId(String.valueOf(idAccount));
 
         return output;
     }
 }
+

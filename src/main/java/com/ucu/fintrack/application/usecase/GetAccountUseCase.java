@@ -7,6 +7,7 @@ import com.ucu.fintrack.domain.repository.BankAccountRepository;
 import java.math.BigDecimal;
 
 import org.springframework.stereotype.Service;
+
 @Service
 public class GetAccountUseCase {
 
@@ -16,12 +17,12 @@ public class GetAccountUseCase {
         this.bankAccountRepository = bankAccountRepository;
     }
 
-    public GetAccountOutput execute(String idAccount) {
-        if (idAccount == null || idAccount.isBlank()) {
-            throw new IllegalArgumentException("El ID de la cuenta es obligatorio.");
+    public GetAccountOutput execute(Long idAccount) {
+        if (idAccount == null || idAccount <= 0) {
+            throw new IllegalArgumentException("El ID de la cuenta es obligatorio y debe ser un número positivo.");
         }
 
-        BankAccount account = bankAccountRepository.findById(Long.parseLong(idAccount))
+        BankAccount account = bankAccountRepository.findById(idAccount)
                 .orElseThrow(() -> new IllegalArgumentException("La cuenta especificada no existe."));
 
         GetAccountOutput output = new GetAccountOutput();

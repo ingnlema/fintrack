@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
 @Service
 public class GetFilteredTransactionsUseCase {
 
@@ -17,15 +18,20 @@ public class GetFilteredTransactionsUseCase {
     public GetFilteredTransactionsUseCase(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
     }
-    public List<Transaction> execute(String idAccount, Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate, Optional<TransactionType> type) {
-        if (idAccount == null || idAccount.isBlank()) {
+
+    public List<Transaction> execute(Long accountId, Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate, Optional<TransactionType> type) {
+        if (accountId == null) {
             throw new IllegalArgumentException("El ID de la cuenta es obligatorio.");
         }
 
         if (startDate.isPresent() && endDate.isPresent() && type.isPresent()) {
-            return transactionRepository.findByDateBetween(startDate.get(), endDate.get());
-        } else{
-            return null;}
-
+            return transactionRepository.findByAccount_IdAndDateBetweenAndType(accountId, startDate.get(), endDate.get(), type.get());
+        } else if (startDate.isPresent() && endDate.isPresent()) {
+            return transactionRepository.findByAccount_IdAndDateBetween(accountId, startDate.get(), endDate.get());
+        } else if (type.isPresent()) {
+            return transactionRepository.findByAccount_IdAndType(accountId, type.get());
+        } else {
+            return transactionRepository.findByAccount_Id(accountId);
+        }
     }
 }

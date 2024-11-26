@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+
 @Service
 public class GetAccountsUseCase {
 
@@ -24,11 +25,11 @@ public class GetAccountsUseCase {
 
         List<AccountSummaryOutput> accountSummaries = accounts.stream().map(account -> {
             AccountSummaryOutput summary = new AccountSummaryOutput();
-            summary.setIdAccount(String.valueOf(account.getId()));
+            summary.setIdAccount(account.getAccountNumber() != null ? account.getAccountNumber() : String.valueOf(account.getId()));
             summary.setBalance(BigDecimal.valueOf(account.getInitialBalance()));
             summary.setCurrency(account.getCurrency().name());
-            summary.setUsername(account.getUser().getUsername());
-            summary.setNameAccount(account.getNameAccount());
+            summary.setUsername(account.getUser() != null ? account.getUser().getUsername() : "N/A");
+            summary.setNameAccount(account.getNameAccount() != null ? account.getNameAccount() : account.getAccountNumber());
             return summary;
         }).collect(Collectors.toList());
 

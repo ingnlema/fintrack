@@ -46,11 +46,4 @@ public class Transaction {
     private String notes;
 
 
-    public static Transaction createSimpleTransaction(BankAccount account, TransactionType type, String description, double amount, LocalDateTime date) {
-        return new Transaction(
-                null, account, description, BigDecimal.valueOf(amount),
-                account.getCurrency(), type, null, date, null, null
-        );
-    }
-
 }
