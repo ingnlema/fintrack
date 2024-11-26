@@ -57,3 +57,26 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/fintrack:latest
 
+      # Paso 8: Despliegue en AKS (Comentado)
+      # - name: Azure Login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # - name: Set Kubernetes Context
+      #   uses: azure/aks-set-context@v2
+      #   with:
+      #     resource-group: fintrack-cluster
+      #     cluster-name: fintrack-cluster
+
+      # - name: Deploy to Kubernetes
+      #   run: |
+      #     kubectl apply -f deployment.yml
+      #     kubectl apply -f postgres-deployment.yml
+      #     kubectl apply -f postgres-pv.yml
+
+      # Paso 9: Verificar despliegue (Comentado)
+      # - name: Verify Deployment
+      #   run: |
+      #     kubectl get pods
+      #     kubectl get services
