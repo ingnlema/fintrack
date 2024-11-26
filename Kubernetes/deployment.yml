@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fintrack-deployment
+  namespace: default
+  labels:
+    app: fintrack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fintrack
+  template:
+    metadata:
+      labels:
+        app: fintrack
+    spec:
+      containers:
+        - name: fintrack
+          image: nlema2411/fintrack:latest # Asegúrate de que esta sea tu imagen correcta
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://db:5432/fintrackdb" # Coincide con tu archivo de configuración
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "admin"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "local" # Coincide con spring.profiles.active
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "none"
+            - name: SPRING_SQL_INIT_MODE
+              value: "always"
+            - name: SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION
+              value: "true"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fintrack-service
+  namespace: default
+spec:
+  selector:
+    app: fintrack
+  ports:
+    - protocol: TCP
+      port: 80       # Exposición del servicio
+      targetPort: 8080 # Puerto donde tu aplicación escucha
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fintrack-config
+  namespace: default
+data:
+  spring.datasource.url: jdbc:postgresql://db:5432/fintrackdb
+  spring.datasource.username: admin
+  spring.datasource.password: admin
+  spring.jpa.hibernate.ddl-auto: none
+  spring.sql.init.mode: always
+  spring.jpa.defer-datasource-initialization: "true"
